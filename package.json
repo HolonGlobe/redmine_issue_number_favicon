@@ -1,0 +1,25 @@
+{
+  "name": "redmine-issue-favicon",
+  "version": "0.0.1",
+  "description": "Displays currently viewed issue's number in the favicon",
+  "keywords": [
+    "redmine",
+    "issue",
+    "favicon"
+  ],
+  "author": "HolonGlobe",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:HolonGlobe/redmine_issue_number_favicon.git"
+  },
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/HolonGlobe/redmine_issue_number_favicon/issues"
+  },
+  "homepage": "https://github.com/HolonGlobe/redmine_issue_number_favicon",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-uglify": "^0.7.0",
+    "grunt-contrib-watch": "^0.6.1"
+  }
+}
