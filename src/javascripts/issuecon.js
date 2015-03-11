@@ -120,49 +120,52 @@
         var context = getCanvas().getContext("2d");
         var src = getCurrentFavicon();
 
-        faviconImage = document.createElement("img");
-        faviconImage.onload = function()
+        digitImage = new Image();
+        digitImage.src = digitsSprite;
+
+        setTimeout(function()
         {
-            // clear canvas
-            context.clearRect(0, 0, size, size);
-
-            // draw the favicon
-            context.drawImage(faviconImage, 0, 0, faviconImage.width, faviconImage.height, 0, 0, size, size);
-
-            // draw bubble over the top
-            var labelLength = (label + "").length;
-            if (labelLength > 0)
+            faviconImage = document.createElement("img");
+            faviconImage.onload = function()
             {
-                drawBubble(context, background);
+                // clear canvas
+                context.clearRect(0, 0, size, size);
 
-                digitImage = new Image();
-                digitImage.src = digitsSprite;
+                // draw the favicon
+                context.drawImage(faviconImage, 0, 0, faviconImage.width, faviconImage.height, 0, 0, size, size);
 
-                var breakDigits = labelLength === 4 ? 2 : 3;
-
-                for (var i = labelLength - 1; i >= 0; i--)
+                // draw bubble over the top
+                var labelLength = (label + "").length;
+                if (labelLength > 0)
                 {
-                    drawDigit(context, label[i], breakDigits);
+                    drawBubble(context, background);
+
+                    var breakDigits = labelLength === 4 ? 2 : 3;
+
+                    for (var i = labelLength - 1; i >= 0; i--)
+                    {
+                        drawDigit(context, label[i], breakDigits);
+                    }
+
+                    if (labelLength < 6)
+                    {
+                        drawDigit(context, hash, breakDigits);
+                    }
                 }
 
-                if (labelLength < 6)
-                {
-                    drawDigit(context, hash, breakDigits);
-                }
+                // refresh tag in page
+                refreshFavicon();
+            };
+
+            // allow cross origin resource requests if the image is not a data:uri
+            // as detailed here: https://github.com/mrdoob/three.js/issues/1305
+            if (!src.match(/^data/) && options.crossOrigin)
+            {
+                faviconImage.crossOrigin = "anonymous";
             }
 
-            // refresh tag in page
-            refreshFavicon();
-        };
-
-        // allow cross origin resource requests if the image is not a data:uri
-        // as detailed here: https://github.com/mrdoob/three.js/issues/1305
-        if (!src.match(/^data/) && options.crossOrigin)
-        {
-            faviconImage.crossOrigin = "anonymous";
-        }
-
-        faviconImage.src = src;
+            faviconImage.src = src;
+        }, 0);
     };
 
     var drawBubble = function(context, background)
