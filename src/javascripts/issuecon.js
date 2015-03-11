@@ -7,12 +7,13 @@
 
 (function()
 {
+    "use strict";
+
     var Issuecon = {},
         currentFavicon = null,
         faviconImage = null,
         canvas = null,
         options = {},
-        agent = navigator.userAgent.toLowerCase(),
         ratio = window.devicePixelRatio || 1,
         size = 16 * ratio,
         pngbase64 = "data:image/png;base64,iVBORw0KGgo",
@@ -42,24 +43,6 @@
             7: "rgba(162, 99, 79, 0.9)"
         },
         crossOrigin: true
-    };
-
-    var ua = (function()
-    {
-        // New function has access to 'agent' via closure
-        return function (browser)
-        {
-            return agent.indexOf(browser) !== -1;
-        };
-    }());
-
-    var browser = {
-        ie: ua("msie"),
-        chrome: ua("chrome"),
-        webkit: ua("chrome") || ua("safari"),
-        safari: ua("safari") && !ua("chrome"),
-        mozilla: ua("mozilla") && !ua("chrome") && !ua("safari"),
-        winnt: ua("windows nt")
     };
 
     var getFaviconTag = function()
@@ -275,7 +258,10 @@
 
         for (var key in defaults)
         {
-            options[key] = custom.hasOwnProperty(key) ? custom[key] : defaults[key];
+            if (defaults.hasOwnProperty(key))
+            {
+                options[key] = custom.hasOwnProperty(key) ? custom[key] : defaults[key];
+            }
         }
 
         return this;
@@ -284,7 +270,10 @@
     Issuecon.setFavicon = function()
     {
         // check support
-        if (!getCanvas().getContext) return this;
+        if (!getCanvas().getContext)
+        {
+            return this;
+        }
 
         var label = getIssueNumber(),
             background = getBackground();
